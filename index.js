@@ -1128,8 +1128,8 @@ exports.start = (client, options) => {
       // Check if it's songs passed, instead of an entire queue.
       // If it equals and object (array), check for length instead of songs.
       if (typeof queue == "object") {
-        if (queue.length > 0) resolve(false)
-        else if (queue.length <= 0) resolve(true);
+        if (queue.songs.length > 0) resolve(false)
+        else if (queue.songs.length <= 0) resolve(true);
       } else {
         if (queue && queue.songs) { // Check songs in an entire queue object.
           if (queue.songs.length > 0) resolve(false) // Resolve false for a queue with songs.
@@ -2101,6 +2101,7 @@ exports.start = (client, options) => {
     })
 
     new Promise((resolve, reject) => {
+        if(queue.songs.length <= 0) return;
         // Join the voice channel if not already in one.
         const voiceConnection = client.voiceConnections.find(val => val.channel.guild.id == msg.guild.id);
         if (voiceConnection === null) {
